@@ -2,6 +2,12 @@ DROP DATABASE IF EXISTS SpotifyClone;
 
 CREATE DATABASE SpotifyClone;
 
+CREATE TABLE SpotifyClone.Plano(
+    plano_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
+    valor DECIMAL(3,2) NOT NULL,
+    plano_nome VARCHAR(100) NOT NULL UNIQUE
+) engine = InnoDB;
+
 CREATE TABLE SpotifyClone.Usuario(
     usuario_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
     nome_usuario VARCHAR(20) NOT NULL,
@@ -9,29 +15,6 @@ CREATE TABLE SpotifyClone.Usuario(
     data_assinatura DATE NOT NULL,
     plano_id_U INT NOT NULL,
     FOREIGN KEY (plano_id_U) REFERENCES Plano(plano_id)
-) engine = InnoDB;
-
-CREATE TABLE SpotifyClone.Plano(
-    plano_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
-    valor DECIMAL(3,2) NOT NULL,
-    plano_nome VARCHAR(100) NOT NULL UNIQUE
-) engine = InnoDB;
-
-CREATE TABLE SpotifyClone.Historico(
-    data_reproducao DATETIME NOT NULL,
-    usuario_id_H INT NOT NULL,
-    FOREIGN KEY (usuario_id_H) REFERENCES Usuario(usuario_id),
-    musica_id_H INT NOT NULL,
-    FOREIGN KEY (musica_id_H) REFERENCES Musica(musica_id),
-    CONSTRAINT PRIMARY KEY (usuario_id_H, musica_id_H)
-) engine = InnoDB;
-
-CREATE TABLE SpotifyClone.Seguindo(
-    usuario_id_S INT NOT NULL,
-    FOREIGN KEY (usuario_id_S) REFERENCES Usuario(usuario_id)
-    artistas_seguidos INT NUT NULL,
-    FOREIGN KEY (artistas_seguidos) REFERENCES Artista(artista_id),
-    CONSTRAINT PRIMARY KEY (usuario_id_S, artistas_seguidos),
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Artista(
@@ -55,9 +38,27 @@ CREATE TABLE SpotifyClone.Musica(
     FOREIGN KEY (album_id_M) REFERENCES Albuns(album_id)
 ) engine = InnoDB;
 
+CREATE TABLE SpotifyClone.Historico(
+    id_historico INT NOT NULL AUTO_INCREMENT UNIQUE,
+    data_reproducao DATETIME NOT NULL,
+    usuario_id_H INT NOT NULL,
+    musica_id_H INT NOT NULL,
+    FOREIGN KEY (usuario_id_H) REFERENCES Usuario(usuario_id),
+    FOREIGN KEY (musica_id_H) REFERENCES Musica(musica_id),
+    CONSTRAINT PRIMARY KEY (usuario_id_H, musica_id_H)
+) engine = InnoDB;
+
+CREATE TABLE SpotifyClone.Seguindo(
+    id_seguindo INT NOT NULL AUTO_INCREMENT UNIQUE,
+    usuario_id_S INT NOT NULL,
+    FOREIGN KEY (usuario_id_S) REFERENCES Usuario(usuario_id),
+    artistas_seguidos INT NOT NULL,
+    FOREIGN KEY (artistas_seguidos) REFERENCES Artista(artista_id),
+    CONSTRAINT PRIMARY KEY (usuario_id_S, artistas_seguidos)
+) engine = InnoDB;
+
 INSERT INTO SpotifyClone.Usuario (nome_usuario, idade, plano_id_U, data_assinatura)
 VALUES
-  VALUES
 	  ('Thati', 23, 1,"2019-10-20"),
     ('Cintia', 35, 2, "2017-12-30"),
     ('Bill', 20, 3, "2019-06-05"),
