@@ -18,20 +18,20 @@ CREATE TABLE SpotifyClone.Plano(
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Historico(
-    histo_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
     data_reproducao DATETIME NOT NULL,
     usuario_id_H INT NOT NULL,
-    FOREIGN KEY (usuario_id_H) REFERENCES Usuario(usuario_id)
+    FOREIGN KEY (usuario_id_H) REFERENCES Usuario(usuario_id),
     musica_id_H INT NOT NULL,
     FOREIGN KEY (musica_id_H) REFERENCES Musica(musica_id),
+    CONSTRAINT PRIMARY KEY (usuario_id_H, musica_id_H)
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Seguindo(
-    id_seg INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
     usuario_id_S INT NOT NULL,
     FOREIGN KEY (usuario_id_S) REFERENCES Usuario(usuario_id)
     artistas_seguidos INT NUT NULL,
     FOREIGN KEY (artistas_seguidos) REFERENCES Artista(artista_id),
+    CONSTRAINT PRIMARY KEY (usuario_id_S, artistas_seguidos),
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Artista(
