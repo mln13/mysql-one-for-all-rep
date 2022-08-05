@@ -44,7 +44,7 @@ CREATE TABLE SpotifyClone.Historico(
     usuario_id_H INT NOT NULL,
     musica_id_H INT NOT NULL,
     FOREIGN KEY (usuario_id_H) REFERENCES Usuario(usuario_id),
-    FOREIGN KEY (musica_id_H) REFERENCES Musica(musica_id),
+    FOREIGN KEY (musica_id_H) REFERENCES Musica(id_musica),
     CONSTRAINT PRIMARY KEY (usuario_id_H, musica_id_H)
 ) engine = InnoDB;
 
@@ -57,6 +57,13 @@ CREATE TABLE SpotifyClone.Seguindo(
     CONSTRAINT PRIMARY KEY (usuario_id_S, artistas_seguidos)
 ) engine = InnoDB;
 
+INSERT INTO SpotifyClone.Plano (valor, plano_nome)
+VALUES
+	  (0.00, 'gratuito'),
+    (7.99, 'familiar'),
+    (5.99, 'universitário'),
+    (6.99, 'pessoal');
+  
 INSERT INTO SpotifyClone.Usuario (nome_usuario, idade, plano_id_U, data_assinatura)
 VALUES
 	  ('Thati', 23, 1,"2019-10-20"),
@@ -70,12 +77,70 @@ VALUES
     ('Angelina', 42, 2, "2018-04-29"),
     ('Paul', 46, 2, "2017-01-17");
 
-INSERT INTO SpotifyClone.Plano (valor, plano_nome)
+INSERT INTO SpotifyClone.Artista (artista_nome)
 VALUES
-	  (0.00, 'gratuito'),
-    (7.99, 'familiar'),
-    (5.99, 'universitário'),
-    (6.99, 'pessoal');
+    ('Walter Phoenix'),
+    ('Peter Strong'),
+    ('Lance Day'),
+    ('Freedie Shannon'),
+    ('Tyler Isle'),
+    ('Fog');
+
+INSERT INTO SpotifyClone.Albuns (album_nome, ano_lancamento, artista_id_A)
+VALUES
+    ('Envious', 1990, 1),
+    ('Exuberant', 1993, 1),
+    ('Hallowed Steam', 1995, 2),
+    ('Incandescent', 1998, 3),
+    ('Temporary Culture', 2001, 4),
+    ('Library of liberty', 2003, 4),
+    ('Chained Down', 2007, 5),
+    ('Cabinet of fools', 2012, 5),
+    ('No guarantees', 2015, 5),
+    ('Apparatus', 2015, 6);
+  
+INSERT INTO SpotifyClone.Musica (musica_nome,duracao_seg,album_id_M)
+VALUES
+      ("Soul For Us", 200, 1),
+    ("Reflections Of Magic", 163, 1),
+    ("Dance With Her Own", 116, 1),
+	  ("Troubles Of My Inner Fire", 203, 2),
+    ("Time Firework", 152, 2),
+	  ("Magic Circus", 105, 3),
+    ("Honey, So Do I", 207, 3),
+    ("Sweetie, Let's Go Wild", 139, 3),
+    ("She Knows", 244, 3),
+	  ("Fantasy For Me", 100, 4),
+    ("Celebration Of More", 146, 4),
+    ("Rock His Everything", 223, 4),
+    ("Home Forever", 231, 4),
+    ("Diamond Power", 241, 4),
+    ("Let's Be Silly", 132, 4),
+	  ("Thang Of Thunder", 240, 5),
+    ("Words Of Her Life", 185, 5),
+    ("Without My Streets", 176, 5),
+	  ("Need Of The Evening", 190, 6),
+    ("History Of My Roses", 222, 6),
+    ("Without My Love", 111, 6),
+    ("Walking And Game", 123, 6),
+    ("Young And Father", 197, 6),
+	  ("Finding My Traditions", 179, 7),
+    ("Walking And Man", 229, 7),
+    ("Hard And Time", 135, 7),
+    ("Honey, I'm A Lone Wolf", 150, 7),
+	  ("She Thinks I Won't Stay Tonight", 166, 8),
+    ("He Heard You're Bad For Me", 154, 8),
+    ("He Hopes We Can't Stay", 210, 8),
+    ("I Know I Know", 117, 8),
+  	("He's Walking Away", 159, 9),
+    ("He's Trouble", 138, 9),
+    ("I Heard I Want To Bo Alone", 120, 9),
+    ("I Ride Alone", 151, 9),
+  	("Honey", 79, 10),
+    ("You Cheated On Me", 95, 10),
+    ("Wouldn't It Be Nice", 213, 10),
+    ("Baby", 136, 10),
+    ("You Make Me Feel So..", 83, 10);
 
 INSERT INTO SpotifyClone.Historico (data_reproducao, musica_id_H, usuario_id_H)
 VALUES
@@ -142,68 +207,3 @@ VALUES
     (3,9),
     (2,10),
     (6,10);
-
-INSERT INTO SpotifyClone.Artista (artista_nome)
-VALUES
-    ('Walter Phoenix'),
-    ('Peter Strong'),
-    ('Lance Day'),
-    ('Freedie Shannon'),
-    ('Tyler Isle'),
-    ('Fog');
-
-INSERT INTO SpotifyClone.Albuns (album_nome, ano_lancamento, artista_id_A)
-VALUES
-    ('Envious', 1990, 1),
-    ('Exuberant', 1993, 1),
-    ('Hallowed Steam', 1995, 2),
-    ('Incandescent', 1998, 3),
-    ('Temporary Culture', 2001, 4),
-    ('Library of liberty', 2003, 4),
-    ('Chained Down', 2007, 5),
-    ('Cabinet of fools', 2012, 5),
-    ('No guarantees', 2015, 5),
-    ('Apparatus', 2015, 6);
-
-INSERT INTO SpotifyClone.Musica (musica_nome,duracao_seg,album_id_M)
-VALUES
-      ("Soul For Us", 200, 1),
-    ("Reflections Of Magic", 163, 1),
-    ("Dance With Her Own", 116, 1),
-	  ("Troubles Of My Inner Fire", 203, 2),
-    ("Time Firework", 152, 2),
-	  ("Magic Circus", 105, 3),
-    ("Honey, So Do I", 207, 3),
-    ("Sweetie, Let's Go Wild", 139, 3),
-    ("She Knows", 244, 3),
-	  ("Fantasy For Me", 100, 4),
-    ("Celebration Of More", 146, 4),
-    ("Rock His Everything", 223, 4),
-    ("Home Forever", 231, 4),
-    ("Diamond Power", 241, 4),
-    ("Let's Be Silly", 132, 4),
-	  ("Thang Of Thunder", 240, 5),
-    ("Words Of Her Life", 185, 5),
-    ("Without My Streets", 176, 5),
-	  ("Need Of The Evening", 190, 6),
-    ("History Of My Roses", 222, 6),
-    ("Without My Love", 111, 6),
-    ("Walking And Game", 123, 6),
-    ("Young And Father", 197, 6),
-	  ("Finding My Traditions", 179, 7),
-    ("Walking And Man", 229, 7),
-    ("Hard And Time", 135, 7),
-    ("Honey, I'm A Lone Wolf", 150, 7),
-	  ("She Thinks I Won't Stay Tonight", 166, 8),
-    ("He Heard You're Bad For Me", 154, 8),
-    ("He Hopes We Can't Stay", 210, 8),
-    ("I Know I Know", 117, 8),
-  	("He's Walking Away", 159, 9),
-    ("He's Trouble", 138, 9),
-    ("I Heard I Want To Bo Alone", 120, 9),
-    ("I Ride Alone", 151, 9),
-  	("Honey", 79, 10),
-    ("You Cheated On Me", 95, 10),
-    ("Wouldn't It Be Nice", 213, 10),
-    ("Baby", 136, 10),
-    ("You Make Me Feel So..", 83, 10);
