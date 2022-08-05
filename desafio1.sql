@@ -3,35 +3,37 @@ DROP DATABASE IF EXISTS SpotifyClone;
 CREATE DATABASE SpotifyClone;
 
 CREATE TABLE SpotifyClone.Usuario(
-    usuario_id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
     nome_usuario VARCHAR(20) NOT NULL,
     idade INT NOT NULL,
-    plano_id INT NOT NULL,
     data_assinatura DATE NOT NULL,
-    FOREIGN KEY (plano_id) REFERENCES Plano(plano_id)
+    plano_id_U INT NOT NULL,
+    FOREIGN KEY (plano_id_U) REFERENCES Plano(plano_id)
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Plano(
-    plano_id INT PRIMARY KEY AUTO_INCREMENT,
+    plano_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
     valor DECIMAL(3,2) NOT NULL,
-    plano_nome VARCHAR(100) NOT NULL
+    plano_nome VARCHAR(100) NOT NULL UNIQUE
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Historico(
-    histo_id INT PRIMARY KEY AUTO_INCREMENT,
+    histo_id INT AUTO_INCREMENT NOT NULL UNIQUE,
     data_reproducao DATETIME NOT NULL,
-    usuario_id INT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES Usuario(usuario_id)
-    musica_id INT NOT NULL,
-    FOREIGN KEY (musica_id) REFERENCES Musica(musica_id)
+    usuario_id_H INT NOT NULL,
+    FOREIGN KEY (usuario_id_H) REFERENCES Usuario(usuario_id)
+    musica_id_H INT NOT NULL,
+    FOREIGN KEY (musica_id_H) REFERENCES Musica(musica_id),
+    CONSTRAINT PRIMARY KEY(usuario_id_H, musica_id_H)
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Seguindo(
-    id_seg INT PRIMARY KEY AUTO_INCREMENT,
-    usuario_id INT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES Usuario(usuario_id)
+    id_seg INT AUTO_INCREMENT NOT NULL UNIQUE,
+    usuario_id_S INT NOT NULL,
+    FOREIGN KEY (usuario_id_S) REFERENCES Usuario(usuario_id)
     artistas_seguidos INT NUT NULL,
-    FOREIGN KEY (artistas_seguidos) REFERENCES Artista(artista_id)
+    FOREIGN KEY (artistas_seguidos) REFERENCES Artista(artista_id),
+    CONSTRAINT PRIMARY KEY(usuario_id_S, artistas_seguidos)
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Artista(
@@ -42,20 +44,20 @@ CREATE TABLE SpotifyClone.Artista(
 CREATE TABLE SpotifyClone.Albuns(
     album_id INT PRIMARY KEY AUTO_INCREMENT,
     album_nome VARCHAR(100) NOT NULL,
-    artista_id INT NOT NULL,
-    FOREIGN KEY (artista_id) REFERENCES Artista(artista_id)
+    artista_id_A INT NOT NULL,
+    FOREIGN KEY (artista_id_A) REFERENCES Artista(artista_id),
     ano_lancamento YEAR NOT NULL
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.Musica(
-    id_musica INT PRIMARY KEY AUTO_INCREMENT,
+    id_musica INT PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE,
     musica_nome VARCHAR(100) NOT NULL,
     duracao_seg INT NOT NULL,
-    album_id INT NOT NULL,
-    FOREIGN KEY (album_id) REFERENCES Albuns(album_id)
+    album_id_M INT NOT NULL,
+    FOREIGN KEY (album_id_M) REFERENCES Albuns(album_id)
 ) engine = InnoDB;
 
-INSERT INTO SpotifyClone.Usuario (nome_usuario, idade, plano_id, data_assinatura)
+INSERT INTO SpotifyClone.Usuario (nome_usuario, idade, plano_id_U, data_assinatura)
 VALUES
   VALUES
 	  ('Thati', 23, 1,"2019-10-20"),
@@ -76,7 +78,7 @@ VALUES
     (5.99, 'universitário'),
     (6.99, 'pessoal');
 
-INSERT INTO SpotifyClone.Historico (data_reproducao, musica_id, usuario_id)
+INSERT INTO SpotifyClone.Historico (data_reproducao, musica_id_H, usuario_id_H)
 VALUES
   ("2020-02-28 10:45:55", 36, 1),
 	("2020-05-02 05:30:35", 25, 1),
@@ -117,7 +119,7 @@ VALUES
 	("2017-07-27 05:24:49", 12, 10),
 	("2017-12-25 01:03:57", 13, 10);
 
-INSERT INTO SpotifyClone.Seguindo (artistas_seguidos, usuario_id)
+INSERT INTO SpotifyClone.Seguindo (artistas_seguidos, usuario_id_S)
 VALUES
 	  (1,1),
     (4,1),
@@ -151,7 +153,7 @@ VALUES
     ('Tyler Isle'),
     ('Fog');
 
-INSERT INTO SpotifyClone.Albuns (album_nome, ano_lancamento, artista_id)
+INSERT INTO SpotifyClone.Albuns (album_nome, ano_lancamento, artista_id_A)
 VALUES
     ('Envious', 1990, 1),
     ('Exuberant', 1993, 1),
@@ -164,7 +166,7 @@ VALUES
     ('No guarantees', 2015, 5),
     ('Apparatus', 2015, 6);
 
-INSERT INTO SpotifyClone.Musica (musica_nome,duracao_seg,album_id)
+INSERT INTO SpotifyClone.Musica (musica_nome,duracao_seg,album_id_M)
 VALUES
       ("Soul For Us", 200, 1),
     ("Reflections Of Magic", 163, 1),
