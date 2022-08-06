@@ -185,7 +185,7 @@ VALUES
 
 INSERT INTO SpotifyClone.Seguindo (artistas_seguidos, usuario_id_S)
 VALUES
-	  (1,1),
+	(1,1),
     (4,1),
     (3,1),
     (1,2),
